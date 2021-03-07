@@ -57,6 +57,11 @@ def main():
         letter = input("Player, Guess a Letter: ")
         letter = letter.lower()
 
+        # error check that a valid letter was inputted
+        if letter < 'a' or letter > 'z':
+            print("\nThat is not a letter. Please input a letter.\n")
+            continue
+
         ### ONLY DO IF ENOUGH TIME ###
         # # check if user wants to know their progress so far
         # if letter == "?":
