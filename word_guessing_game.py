@@ -2,9 +2,9 @@
 ### helper functions ###
 
 # fill correct_guesses with underscores to help print out later
-def setup_game(secret_phrase, str_len, correct_guesses):
+def setup_game(secret_word, str_len, correct_guesses):
     for c in range (str_len):
-        if secret_phrase[c] == " ":
+        if secret_word[c] == " ":
             correct_guesses.append(" ")
             continue
         correct_guesses.append("_")
@@ -18,24 +18,25 @@ def print_num_guesses(num_guesses):
     else:
         print("guesses left.")
 
-
-# print out guesses
-def print_guesses(num_guesses, prev_guesses, correct_guesses):
-    # print out how many guesses are left
-    print_num_guesses(num_guesses)
-
-    # print out all letters guessed so far
-    print("This is what you have guessed so far: ", end="")
-    sorted_list = sorted(prev_guesses)
-    for c in prev_guesses:
-        print(c + " ", end="")
-    print()
-
-    # print out current phase
-    print("This is the phrase so far: ")
-    for c in correct_guesses:
-        print(c, end="")
-    print("\n")
+### ONLY DO IF ENOUGH TIME ###
+# # print out guesses
+# def print_guesses(num_guesses, prev_guesses, correct_guesses):
+#     # print out how many guesses are left
+#     print_num_guesses(num_guesses)
+#
+#     # print out all letters guessed so far
+#     print("This is what you have guessed so far: ", end="")
+#     sorted_list = sorted(prev_guesses)
+#     for c in prev_guesses:
+#         print(c + " ", end="")
+#     print()
+#
+#     # print out current word
+#     print("This is the word so far: ")
+#     for c in correct_guesses:
+#         print(c, end="")
+#     print("\n")
+##############################
 
 
 def main():
@@ -45,10 +46,10 @@ def main():
     correct_guesses = []    # store correct guesses
     num_correct_letters = 0 # store total numbers of correct letters
 
-    # ask for phrase and setup game
-    secret_phrase = input("\nEnter a phrase: ")
-    str_len = len(secret_phrase)
-    setup_game(secret_phrase, str_len, correct_guesses)
+    # ask for word and setup game
+    secret_word = input("\nEnter a word: ")
+    str_len = len(secret_word)
+    setup_game(secret_word, str_len, correct_guesses)
     print()
 
     while num_guesses > 0:
@@ -56,11 +57,14 @@ def main():
         letter = input("Player, Guess a Letter: ")
         letter = letter.lower()
 
-        if letter == "?":
-            # player wants to know what they have guessed so far
-            print()
-            print_guesses(num_guesses, prev_guesses, correct_guesses)
-            continue
+        ### ONLY DO IF ENOUGH TIME ###
+        # # check if user wants to know their progress so far
+        # if letter == "?":
+        #     # player wants to know what they have guessed so far
+        #     print()
+        #     print_guesses(num_guesses, prev_guesses, correct_guesses)
+        #     continue
+        ##############################
 
         # check if player has already guessed that letter
         if letter in prev_guesses:
@@ -71,21 +75,21 @@ def main():
         # add guess to list of guesses
         prev_guesses.append(letter)
 
-        # check if letter is in phrase
-        if letter in secret_phrase.lower():
-            # store the letter into all correct spots according to phrase
+        # check if letter is in word
+        if letter in secret_word.lower():
+            # store the letter into all correct spots according to word
             for c in range (str_len):
-                if secret_phrase.lower()[c] == letter:
+                if secret_word.lower()[c] == letter:
                     # found where letter should go
                     correct_guesses[c] = letter
                     # update number of letters guessed correctly
                     num_correct_letters = num_correct_letters + 1
             print("\nCorrect!\n")
 
-            if num_correct_letters == (str_len - secret_phrase.count(" ")):
-                # the whole phrase has been guesses correctly
-                print("You guessed the whole phrase correct!")
-                print(secret_phrase)
+            if num_correct_letters == (str_len - secret_word.count(" ")):
+                # the whole word has been guesses correctly
+                print("You guessed the whole word correctly!")
+                print(secret_word)
                 print()
                 break;
         else:
@@ -97,8 +101,8 @@ def main():
 
     # if no guesses left, then player lost
     if (num_guesses == 0):
-        print("Sorry, you did not correct the entire phrase.")
-        print(secret_phrase)
+        print("Sorry, you did not guess the entire word.")
+        print(secret_word)
         print()
 
 main()
